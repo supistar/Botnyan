@@ -1,0 +1,18 @@
+# Build related
+build
+*.pyc
+
+# OAuth related
+oauth
+
+# MacOS related
+.DS_Store
+
+# Python related
+.python-version
+
+# Others
+*.swp
+.\!*
+/log
+
