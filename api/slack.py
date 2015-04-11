@@ -3,6 +3,7 @@
 import os
 import httplib2
 import urllib
+import re
 from oauth2client.client import SignedJwtAssertionCredentials
 from apiclient.discovery import build
 
@@ -35,7 +36,19 @@ def webhook():
     trigger_word_uni = Utils().parse_dic(form, 'trigger_word')
     text_uni = Utils().parse_dic(form, 'text')
 
-    if not username or 'bot' in username or not trigger_word_uni or not text_uni or urllib.unquote_plus(trigger_word_uni) != urllib.unquote_plus(text_uni):
+    # Check trigger user is not bot
+    if not username or 'bot' in username:
+        dic = {}
+        return Response(Utils().dump_json(dic), mimetype='application/json')
+
+    # For help context
+    if re.compile('^botnyan\s+keyword(|s)\s*$').match(urllib.unquote_plus(text_uni)):
+        print("List : %r" % Parser().get_keyword_list())
+        dic = {"text": "登録キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_keyword_list()))}
+        return Response(Utils().dump_json(dic), mimetype='application/json')
+
+    # Check message fully match the keyword
+    if not trigger_word_uni or not text_uni or urllib.unquote_plus(trigger_word_uni) != urllib.unquote_plus(text_uni):
         dic = {}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
