@@ -24,6 +24,17 @@ class Parser(object):
         return None
 
     @classmethod
+    def get_documentid_keyword_list(cls):
+        doc_dic = settings.DOCUMENTS
+        lists = []
+        for sets in doc_dic:
+            keywords = sets['Keywords']
+            if isinstance(keywords, list):
+                keywords = "[{0}]".format(", ".join(keywords))
+            lists.append("{0}: {1}".format(keywords, sets['DocumentID']))
+        return lists
+
+    @classmethod
     def get_keyword_list(cls):
         doc_dic = settings.DOCUMENTS
         lists = []

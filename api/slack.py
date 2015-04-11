@@ -46,8 +46,11 @@ def webhook():
         dic = {"text": "ヘルプです n_n\n```- botnyan keyword(s) : 登録されているキーワードを表示します\n- botnyan list : 登録されているキーワードとドキュメントIDを表示します\n- {登録されているキーワード} : キーワードに対応したドキュメントIDをもとに、Google Drive の内容を取得し表示します```"}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
+    if re.compile('^botnyan\s+list(|s)\s*$').match(urllib.unquote_plus(text_uni)):
+        dic = {"text": "登録ドキュメントID・キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_documentid_keyword_list()))}
+        return Response(Utils().dump_json(dic), mimetype='application/json')
+
     if re.compile('^botnyan\s+keyword(|s)\s*$').match(urllib.unquote_plus(text_uni)):
-        print("List : %r" % Parser().get_keyword_list())
         dic = {"text": "登録キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_keyword_list()))}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
