@@ -11,6 +11,7 @@ from flask import Blueprint, request, Response, abort
 from flask_negotiate import consumes
 from flask.ext.cors import cross_origin
 
+import settings
 from model.parser import Parser
 from model.utils import Utils
 
@@ -41,16 +42,20 @@ def webhook():
         dic = {}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
+    botname = settings.BOTNAME
+    if not botname:
+        abort(500)
+
     # For help context
-    if re.compile('^botnyan\s+help\s*$').match(urllib.unquote_plus(text_uni)):
+    if re.compile('^%s\s+help\s*$' % botname).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "ヘルプです n_n\n```- botnyan keyword(s) : 登録されているキーワードを表示します\n- botnyan list : 登録されているキーワードとドキュメントIDを表示します\n- {登録されているキーワード} : キーワードに対応したドキュメントIDをもとに、Google Drive の内容を取得し表示します```"}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
-    if re.compile('^botnyan\s+list(|s)\s*$').match(urllib.unquote_plus(text_uni)):
+    if re.compile('^%s\s+list(|s)\s*$' % botname).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "登録ドキュメントID・キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_documentid_keyword_list()))}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
-    if re.compile('^botnyan\s+keyword(|s)\s*$').match(urllib.unquote_plus(text_uni)):
+    if re.compile('^%s\s+keyword(|s)\s*$' % botname).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "登録キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_keyword_list()))}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 

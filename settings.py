@@ -22,3 +22,5 @@ DOCUMENTS = [
         'DocumentID': '1fb2ls79RPflv4AIQbNFZCDkrkEHvuH4ZYosVPjgnYQQ'
     }
 ]
+
+BOTNAME = 'botnyan'
