@@ -1,5 +1,7 @@
 # -*- encoding:utf8 -*-
 
+import re
+
 DOCUMENTS = [
     {
         'Keywords': [
@@ -24,3 +26,4 @@ DOCUMENTS = [
 ]
 
 BOTNAME = 'botnyan'
+RE_FLAGS = re.IGNORECASE

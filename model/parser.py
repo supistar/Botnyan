@@ -1,6 +1,7 @@
 # -*- encoding:utf8 -*-
 
 import settings
+import re
 
 
 class Parser(object):
@@ -14,13 +15,12 @@ class Parser(object):
         for sets in doc_dic:
             keywords = sets['Keywords']
             if isinstance(keywords, list):
-                keywords = [cls._convert_unicode(keyword) for keyword in keywords]
-                if not target_keyword in keywords:
-                    continue
+                for keyword in keywords:
+                    if cls._is_match_keyword(target_keyword, cls._convert_unicode(keyword)):
+                        return sets['DocumentID']
             else:
-                if target_keyword != cls._convert_unicode(keywords):
-                    continue
-            return sets['DocumentID']
+                if cls._is_match_keyword(target_keyword, cls._convert_unicode(keyword)):
+                    return sets['DocumentID']
         return None
 
     @classmethod
@@ -53,3 +53,7 @@ class Parser(object):
         if isinstance(text, str):
             return text.decode('utf-8')
         raise Exception("Target keyword type should be unicode : %r" % (type(text)))
+
+    @classmethod
+    def _is_match_keyword(cls, keyword1, keyword2):
+        return re.compile('^%s$' % keyword1, settings.RE_FLAGS).match(keyword2)
