@@ -47,15 +47,16 @@ def webhook():
         abort(500)
 
     # For help context
-    if re.compile('^%s\s+help\s*$' % botname).match(urllib.unquote_plus(text_uni)):
+    re_flags = settings.RE_FLAGS
+    if re.compile('^%s\s+help\s*$' % botname, re_flags).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "ヘルプです n_n\n```- botnyan keyword(s) : 登録されているキーワードを表示します\n- botnyan list : 登録されているキーワードとドキュメントIDを表示します\n- {登録されているキーワード} : キーワードに対応したドキュメントIDをもとに、Google Drive の内容を取得し表示します```"}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
-    if re.compile('^%s\s+list(|s)\s*$' % botname).match(urllib.unquote_plus(text_uni)):
+    if re.compile('^%s\s+list(|s)\s*$' % botname, re_flags).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "登録ドキュメントID・キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_documentid_keyword_list()))}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
-    if re.compile('^%s\s+keyword(|s)\s*$' % botname).match(urllib.unquote_plus(text_uni)):
+    if re.compile('^%s\s+keyword(|s)\s*$' % botname, re_flags).match(urllib.unquote_plus(text_uni)):
         dic = {"text": "登録キーワード一覧です n_n\n```- {0}```".format("\n- ".join(Parser().get_keyword_list()))}
         return Response(Utils().dump_json(dic), mimetype='application/json')
 
