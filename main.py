@@ -5,10 +5,12 @@ from flask import Flask
 from flask.ext.cors import CORS
 from api.slack import slack
 from api.heartbeat import heartbeat
+from api.drive import drive
 
 app = Flask(__name__)
 app.register_blueprint(slack)
 app.register_blueprint(heartbeat)
+app.register_blueprint(drive)
 app.config['CORS_ALLOW_HEADERS'] = "Content-Type"
 cors = CORS(app)
 
