@@ -19,7 +19,7 @@ class Parser(object):
                     if cls._is_match_keyword(target_keyword, cls._convert_unicode(keyword)):
                         return sets['DocumentID']
             else:
-                if cls._is_match_keyword(target_keyword, cls._convert_unicode(keyword)):
+                if cls._is_match_keyword(target_keyword, cls._convert_unicode(keywords)):
                     return sets['DocumentID']
         return None
 
