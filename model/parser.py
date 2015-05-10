@@ -3,23 +3,25 @@
 import settings
 import re
 
+from model.utils import Utils
+
 
 class Parser(object):
 
     @classmethod
     def get_document_id(cls, target_keyword):
         # Convert keyword
-        target_keyword = cls._convert_unicode(target_keyword)
+        target_keyword = Utils().convert_unicode(target_keyword)
 
         doc_dic = settings.DOCUMENTS
         for sets in doc_dic:
             keywords = sets['Keywords']
             if isinstance(keywords, list):
                 for keyword in keywords:
-                    if cls._is_match_keyword(target_keyword, cls._convert_unicode(keyword)):
+                    if cls._is_match_keyword(target_keyword, Utils().convert_unicode(keyword)):
                         return sets['DocumentID']
             else:
-                if cls._is_match_keyword(target_keyword, cls._convert_unicode(keywords)):
+                if cls._is_match_keyword(target_keyword, Utils().convert_unicode(keywords)):
                     return sets['DocumentID']
         return None
 
@@ -35,24 +37,19 @@ class Parser(object):
         return lists
 
     @classmethod
-    def get_keyword_list(cls):
+    def get_keyword_list(cls, expand=False):
         doc_dic = settings.DOCUMENTS
         lists = []
         for sets in doc_dic:
             keywords = sets['Keywords']
             if isinstance(keywords, list):
-                keywords = "[{0}]".format(", ".join(keywords))
+                if expand:
+                    lists.extend(keywords)
+                    continue
+                else:
+                    keywords = "[{0}]".format(", ".join(keywords))
             lists.append(keywords)
         return lists
-
-    @classmethod
-    def _convert_unicode(cls, text):
-        if isinstance(text, unicode):
-            return text
-        # If text is string, will be decode
-        if isinstance(text, str):
-            return text.decode('utf-8')
-        raise Exception("Target keyword type should be unicode : %r" % (type(text)))
 
     @classmethod
     def _is_match_keyword(cls, keyword1, keyword2):
