@@ -32,3 +32,12 @@ class Utils(object):
             if (httpStatus):
                 abort(httpStatus)
         return value
+
+    @classmethod
+    def convert_unicode(cls, text):
+        if isinstance(text, unicode):
+            return text
+        # If text is string, will be decode
+        if isinstance(text, str):
+            return text.decode('utf-8')
+        raise Exception("Target keyword type should be unicode : %r" % (type(text)))
