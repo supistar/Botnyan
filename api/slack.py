@@ -64,5 +64,8 @@ def webhook():
     if not content:
         dic = {}
     else:
-        dic = {"text": content}
+        if isinstance(content, dict) and (content.get('text') or content.get('attachments')):
+            dic = content
+        else:
+            dic = {"text": content}
     return Response(Utils().dump_json(dic), mimetype='application/json')
