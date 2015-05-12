@@ -13,11 +13,13 @@ itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
 oauth2client==1.4.6
+Pillow==2.8.1
 pyasn1==0.1.7
 pyasn1-modules==0.0.5
 pycparser==2.10
 pyOpenSSL==0.14
 pytz==2014.10
+qrcode==5.1
 rsa==3.1.4
 simplejson==3.6.5
 six==1.9.0
