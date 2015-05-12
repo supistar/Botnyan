@@ -1,7 +1,7 @@
 # -*- encoding:utf8 -*-
 
-from model.plugins.base.responsebase import IResponseBase
 from model.parser import Parser
+from plugins.base.responsebase import IResponseBase
 
 
 class Keywords(IResponseBase):

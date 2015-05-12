@@ -1,6 +1,6 @@
 # -*- encoding:utf8 -*-
 
-from model.plugins.base.responsebase import IResponseBase
+from plugins.base.responsebase import IResponseBase
 
 
 class Help(IResponseBase):
