@@ -17,7 +17,7 @@ class PluginLoader(object):
         self._load_modules()
 
     def _load_modules(self):
-        pkg = 'model.plugins'
+        pkg = 'plugins'
         prefix = pkg + '.'
         package = sys.modules[pkg]
         reload(package)
