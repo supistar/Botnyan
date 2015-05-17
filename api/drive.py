@@ -8,7 +8,7 @@ from model.oauth import OAuth
 from model.utils import Utils
 
 
-drive = Blueprint('drive', __name__, url_prefix='/drive')
+drive = Blueprint('drive', __name__, url_prefix='/api/drive')
 
 
 @drive.route("/auth", methods=['GET'])
