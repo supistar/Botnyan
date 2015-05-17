@@ -4,6 +4,7 @@ import os
 import httplib2
 from oauth2client.client import SignedJwtAssertionCredentials
 from apiclient.discovery import build
+from model.cache import Cache
 
 
 class GoogleDrive(object):
@@ -19,6 +20,11 @@ class GoogleDrive(object):
         if not export_type:
             print("There is no exportType")
             return None
+
+        # Check document cache exists
+        content = Cache().get(document_id)
+        if content:
+            return content
 
         try:
             private_key = os.environ['GOOGLE_PRIVATE_KEY']
@@ -41,6 +47,8 @@ class GoogleDrive(object):
             if 'exportLinks' in f and export_type in f['exportLinks']:
                 download = f['exportLinks'][export_type]
                 resp, content = service._http.request(download)
+                # Set document cache
+                Cache().set(document_id, content)
             else:
                 content = '読み込みに失敗したにゃー'
         except Exception as e:
