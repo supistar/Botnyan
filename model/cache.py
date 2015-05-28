@@ -2,7 +2,9 @@
 
 import os
 import redis
+from redis.exceptions import ConnectionError
 
+from model.exceptions import CacheError
 from model.metaclass.singleton import Singleton
 
 
@@ -17,16 +19,31 @@ class Cache():
         self.rd = redis.Redis(host=host, port=port, db=0)
 
     def set(self, key, value):
-        self.rd.set(key, value)
+        try:
+            self.rd.set(key, value)
+        except ConnectionError as e:
+            raise CacheError(e)
 
     def get(self, key):
-        return self.rd.get(key)
+        try:
+            return self.rd.get(key)
+        except ConnectionError as e:
+            raise CacheError(e)
 
     def contains(self, key):
-        return self.rd.exists(key)
+        try:
+            return self.rd.exists(key)
+        except ConnectionError as e:
+            raise CacheError(e)
 
     def clear(self, key):
-        self.rd.delete(key)
+        try:
+            self.rd.delete(key)
+        except ConnectionError as e:
+            raise CacheError(e)
 
     def keys(self):
-        return self.rd.keys()
+        try:
+            return self.rd.keys()
+        except ConnectionError as e:
+            raise CacheError(e)
