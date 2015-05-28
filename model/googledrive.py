@@ -5,6 +5,7 @@ import httplib2
 from oauth2client.client import SignedJwtAssertionCredentials
 from apiclient.discovery import build
 from model.cache import Cache
+from model.exceptions import CacheError
 
 
 class GoogleDrive(object):
@@ -22,7 +23,10 @@ class GoogleDrive(object):
             return None
 
         # Check document cache exists
-        content = Cache().get(document_id)
+        try:
+            content = Cache().get(document_id)
+        except CacheError as e:
+            content = None
         if content:
             return content
 
@@ -48,7 +52,11 @@ class GoogleDrive(object):
                 download = f['exportLinks'][export_type]
                 resp, content = service._http.request(download)
                 # Set document cache
-                Cache().set(document_id, content)
+                try:
+                    Cache().set(document_id, content)
+                except CacheError as e:
+                    # Nothing to do
+                    pass
             else:
                 content = '読み込みに失敗したにゃー'
         except Exception as e:
