@@ -51,6 +51,16 @@ class Cache():
         except ConnectionError as e:
             raise CacheError(e)
 
+    def clear_all(self):
+        if not settings.USE_CACHE:
+            return
+        try:
+            keys = self.keys()
+            for key in keys:
+                self.clear(key)
+        except ConnectionError as e:
+            raise CacheError(e)
+
     def keys(self):
         if not settings.USE_CACHE:
             return
