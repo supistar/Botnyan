@@ -1,5 +1,6 @@
 # -*- encoding:utf8 -*-
 
+import os
 import re
 
 DOCUMENTS = [
@@ -29,3 +30,6 @@ QRCODE_DOCUMENT = '1HQFDEJ8NYSXCH5EbL_5I0-81Kh8-vY7AiNbPFulsUx4'
 
 BOTNAME = 'botnyan'
 RE_FLAGS = re.IGNORECASE
+
+# Following settings are retrieved from environment variable
+USE_CACHE = bool(os.environ.get('BOTNYAN_USE_CACHE', False))

@@ -15,4 +15,6 @@ oauth
 *.swp
 .\!*
 /log
-
+dump.rdb
+/.idea
+setenv*.sh
