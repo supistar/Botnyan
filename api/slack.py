@@ -68,4 +68,5 @@ def webhook():
             dic = content
         else:
             dic = {"text": content}
+        dic["link_names"] = 1
     return Response(Utils().dump_json(dic), mimetype='application/json')
