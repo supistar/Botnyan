@@ -19,7 +19,7 @@ class OAuth:
             separator = "/"
             if base_url.endswith("/"):
                 separator = ""
-            redirect_url = "{0}{1}drive/callback".format(base_url, separator)
+            redirect_url = "{0}{1}api/drive/callback".format(base_url, separator)
             flow = OAuth2WebServerFlow(client_id=client_id,
                                        client_secret=client_secret,
                                        scope=scope,
